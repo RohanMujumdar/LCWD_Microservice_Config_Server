@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: "config_server"
+
+  profiles:
+  # Our configurations will now be read from Git.
+    active: git
+  # It tells where our configs are stored.
+  # Spring cloud config server will read the configs from here.
+  cloud:
+    config:
+      server:
+        git:
+          uri: "https://github.com/RohanMujumdar/LCWD_Microservices_Configs.git"
+
+          # It tells from which branch to read the configs from.
+          default-label: main
+
+          # In secs. It is for git operations like cloning or pulling updates.
+          timeout: 5
+          # whenever our config-server starts the config repo will get cloned over here whenever
+          # any service makes a request.
+          clone-on-start: true
+
+          # latest updates will be pulled automatically.
+          force-pull: true
+
+
+server:
+  port: 9095
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+
+
+management:
+  # Enables all the actuator endpoints.
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  # It tells Spring Boot Actuator to include environment properties
+  # (like system or app-specific properties) in the /actuator/info endpoint.
+  info:
+    env:
+      enabled: true
+
+
+# Used for encrypting the sensitive info stored in the github server.
+# This will automatically enable 2 endpoints, Encrypt and Decrypt.
+# Once can use those endpoints to encrypt and decrypt their data using the below key.
+encrypt:
+  key: "lknlkjndfsjvbdfkjlb"
