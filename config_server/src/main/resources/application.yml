@@ -4,7 +4,10 @@ spring:
 
   profiles:
   # Our configurations will now be read from Git.
+  # If set to native, then config server will read the configs either from
+  # classpath or a source folder of this computer.
     active: git
+
   # It tells where our configs are stored.
   # Spring cloud config server will read the configs from here.
   cloud:
